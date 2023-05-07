@@ -65,18 +65,7 @@ byte A[8][8] = {
   {1,0,1,1,1,1,0,1}
 };
 
-byte space[8][8] = {
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1}
-};
-
-byte previousState=1, presentState=1, patternNumber=0;
+byte previousState=0, presentState=0, patternNumber=0;
 
 void setup()
 {
@@ -87,18 +76,18 @@ void setup()
     pinMode(col[i], OUTPUT);
   }  
 
-  pinMode(2, INPUT_PULLUP);
-  
+  pinMode(BUTTON, INPUT_PULLUP);
+  Serial.begin(9600);
 }
 
 void loop()
 { 
-  showPattern(circle);
   presentState = digitalRead(BUTTON);
-  if(presentState == 0 && previousState == 1){
+  if(presentState == 1 && previousState == 0){
     patternNumber++;
     if(patternNumber > 2) patternNumber = 0;
-  }  
+  }
+  Serial.println(patternNumber);  
 
   if(patternNumber == 0) showPattern(circle);
   else if(patternNumber == 1) showPattern(H);
@@ -121,19 +110,3 @@ void showPattern(byte matrix[8][8]){
   }
   delay(2);
 }
-
-void clear(byte matrix[8][8]) {
-  for(byte i = 0; i < 8; i++){
-    for(byte j = 0; j < 8; j++){
-      digitalWrite(row[j], scan[i][j]);
-      digitalWrite(col[j], matrix[i][j]);	
-    }
-    for(byte j = 0; j < 8; j++){
-      digitalWrite(row[j], LOW);
-      digitalWrite(col[j], HIGH);	
-    }
-  }
-  delay(2);
-}
-
-
