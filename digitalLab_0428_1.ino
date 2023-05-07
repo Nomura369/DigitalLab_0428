@@ -1,5 +1,3 @@
-#include "LedControl.h"
-
 #define ROW1 13
 #define ROW2 12
 #define ROW3 11
@@ -107,7 +105,6 @@ void loop()
   else if(patternNumber == 2)showPattern(A);
   delay(2);
   previousState = presentState;
-  LedControl::clearDisplay(BUTTON);
   
 }
 
